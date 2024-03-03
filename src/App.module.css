@@ -1,0 +1,11 @@
+.hideSmall {
+  @media (max-width: 640px) {
+    display: none;
+  }
+}
+
+.offsetButton {
+  position: relative;
+  right: 48px;
+  width: 0;
+}
