@@ -62,9 +62,9 @@ export function Home() {
 
       <div className={uploadButton}>
         <FileUploader
-          labelTitle="Upload image"
-          labelDescription="Upload an image of a plant to identify it."
-          buttonLabel="Add image"
+          labelTitle="Search by image"
+          labelDescription="Upload an image of a plant or search by name in the bar above."
+          buttonLabel="Upload image"
           filenameStatus="edit"
           multiple={false}
           accept={['.avif','.bmp','.gif','.jpeg','.jpg','.png','.tif','.tiff','.webp']}
@@ -80,6 +80,20 @@ export function Home() {
         protect these plants further.
       </p>
       <Spacer />
+      <h2>Conservation</h2>
+      <p>
+        There are many different ways you can protect endangered plant species.
+        Smaller ways you can help out are by making an effort to plant flowers
+        and other herbs, and planting the seeds of foods after you eat them,
+        which also makes for a cost effective solution. You can also work to
+        reduce your carbon footprint and stand up against habitat destruction.
+        Bigger ways people can be trying to help out conservation efforts like
+        habitat restoration or putting leaders into power who will be creating
+        policies to protect lands and plants. This also includes respected
+        protected areas. If you want more information on how you can help out or
+        how people already help go to the <a href="https://www.fs.usda.gov/wildflowers/Rare_Plants/conservation/index.shtml">
+        USDA's conservation page</a> as well as <a href="https://www.endangered.org/doing-your-part-how-to-protect-endangered-plants/">endangered.org</a>.
+      </p>
     </div>
   );
 }
