@@ -8,7 +8,7 @@ export function App() {
 
   const [data, setData] = useState(null);
   useEffect(() => {
-    fetch('/plants.json')
+    fetch(import.meta.env.BASE_URL + 'plants.json')
       .then(res => res.json())
       .then(json => setData(json));
   });
