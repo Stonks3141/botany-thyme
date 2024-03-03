@@ -15,8 +15,5 @@
         ];
       };
     });
-    packages = forEachSystem (pkgs: {
-      default = pkgs.hello;
-    });
   };
 }

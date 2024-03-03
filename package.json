@@ -4,16 +4,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@carbon/react": "^1.52.0",
-    "preact": "^10.19.5"
+    "preact": "^10.19.5",
+    "@carbon/react": "^1.52.0"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.8.1",
-    "typescript": "^5.2.2",
     "vite": "^5.1.4"
   }
 }
