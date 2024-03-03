@@ -1,35 +1,27 @@
 import { useState } from 'preact/hooks';
-import preactLogo from './assets/preact.svg';
-import viteLogo from '/vite.svg';
-import '@carbon/web-components/es/components-react/button/index.js';
-//import '@carbon/web-components/es/typings/jsx-elements.d.ts';
-import './app.css';
+import { Header, HeaderName, HeaderGlobalBar, HeaderGlobalAction, ExpandableSearch, PaginationNav } from '@carbon/react';
+import data from './plants.json';
+import PlantCard from './PlantCard.tsx';
 
 export function App() {
-  const [count, setCount] = useState(0);
-
+  const [page, setPage] = useState(0);
+  const perPage = 10;
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} class="logo" alt="Vite logo" />
-        </a>
-        <a href="https://preactjs.com" target="_blank">
-          <img src={preactLogo} class="logo preact" alt="Preact logo" />
-        </a>
-      </div>
-      <h1>Vite + Preact</h1>
-      <div class="card">
-        <cds-button>
-          count is {count}
-        </cds-button>
-        <p>
-          Edit <code>src/app.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p class="read-the-docs">
-        Click on the Vite and Preact logos to learn more
-      </p>
+      <Header aria-label="Botany Thyme">
+        <HeaderName href="/" prefix="">Botany Thyme</HeaderName>
+        <HeaderGlobalBar>
+          <ExpandableSearch size="lg" labelText="Search for plants" />
+        </HeaderGlobalBar>
+      </Header>
+      {data.slice(page * perPage, (page + 1) * perPage).map(plant => <PlantCard data={plant} />)}
+      <footer className="cds--footer">
+        <PaginationNav
+          page={page}
+          onChange={n => setPage(n)}
+          totalItems={Math.ceil(data.length / perPage)}
+        />
+      </footer>
     </>
   );
 }

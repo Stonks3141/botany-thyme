@@ -1,5 +1,6 @@
 import { render } from 'preact';
 import { App } from './app.tsx';
-import './index.css';
+import './index.scss';
+import './jsx-elements.d.ts';
 
-render(<App />, document.querySelector('#app')!);
+render(<App />, document.body);
