@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'preact/hooks';
-import { Header, HeaderName, HeaderGlobalBar, HeaderGlobalAction, ExpandableSearch, PaginationNav, Loading } from '@carbon/react';
+import { Header, HeaderName, HeaderGlobalBar, HeaderGlobalAction, ExpandableSearch, PaginationNav, Loading, Grid, Column } from '@carbon/react';
 import PlantCard from './PlantCard.jsx';
 
 export function App() {
@@ -24,7 +24,11 @@ export function App() {
       {data === null
         ? <Loading active={true} />
         : <>
-            {data.slice(page * perPage, (page + 1) * perPage).map(plant => <PlantCard data={plant} />)}
+            <Grid as="main">
+              {data.slice(page * perPage, (page + 1) * perPage).map(plant =>
+                <Column sm={4} md={4} lg={4}><PlantCard data={plant} /></Column>
+              )}
+            </Grid>
             <footer className="cds--footer">
               <PaginationNav
                 page={page}

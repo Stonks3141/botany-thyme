@@ -1,1 +1,5 @@
 @use '@carbon/react';
+@use '@carbon/react/scss/type';
+.caption-01 {
+  @include type.type-style('caption-01');
+}

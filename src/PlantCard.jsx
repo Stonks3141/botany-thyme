@@ -1,5 +1,5 @@
 import { useState } from 'preact/hooks';
-import { Tile } from '@carbon/react';
+import { Tag, Tile } from '@carbon/react';
 
 export default function PlantCard({ data }) {
   const scientificName = data
@@ -18,19 +18,13 @@ export default function PlantCard({ data }) {
     <>
       <Tile>
         <h4 style="text-transform: capitalize">{data.CommonName}</h4>
-        <p>
-          Scientific name: {scientificName}
+        <p className="caption-01">{scientificName}</p>
+        <p style="text-transform: lowercase">
+          <Tag type="red">{data.Group}</Tag>
+          {data.Durations.map(duration => <Tag type="blue">{duration}</Tag>)}
+          {data.GrowthHabits.map(habit => <Tag type="green">{habit}</Tag>)}
         </p>
-        <p>
-          Group: <span style="text-transform: lowercase">{data.Group}</span>
-        </p>
-        <p>
-          Growth habit: <span style="text-transform: lowercase">{growthHabit}</span>
-        </p>
-        <p>
-          Duration: <span style="text-transform: lowercase">{duration}</span>
-        </p>
-        <img src={imageUrl} />
+        <img src={imageUrl} style="max-width: 100%; max-height: 100%;" />
       </Tile>
     </>
   );
