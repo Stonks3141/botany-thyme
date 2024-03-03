@@ -6,10 +6,9 @@ export default function PlantCard({ data }) {
             .ScientificName
             .split(/(?=<i>)/g)
             .flatMap(s => s.split(/(?<=<\/i>)/g))
-            .map(s => s.startsWith('<i>') && s.endsWith('</i>')
-              ? <em>{s.slice(3, s.length - 4)}</em>
-              : s
-            );
+            .filter(s => s.startsWith('<i>') && s.endsWith('</i>'))
+            .map(s => <em>{s.slice(3, s.length - 4)}</em>)
+            [0];
   const listFmt = new Intl.ListFormat('en', { type: 'unit' });
   const growthHabit = listFmt.format(data.GrowthHabits);
   const duration = listFmt.format(data.Durations);
