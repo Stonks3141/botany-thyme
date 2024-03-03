@@ -1,7 +1,7 @@
 import { useState } from 'preact/hooks';
 import { Tag, Tile } from '@carbon/react';
 
-export default function PlantCard({ data }) {
+export function PlantCard({ data }) {
   return (
     <>
       <Tile>
