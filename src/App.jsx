@@ -1,41 +1,24 @@
-import { useState, useEffect, useRef } from 'preact/hooks';
+import { useSignal } from '@preact/signals';
 import { Router } from 'preact-router';
-import { Content, PaginationNav, Loading, Grid, Column } from '@carbon/react';
+import { Content } from '@carbon/react';
 import { Header } from './Header.jsx';
-import { SearchResults } from './SearchResults.jsx';
+import { Home } from './Home.jsx';
+import { PlantSearch } from './PlantSearch.jsx';
+import { PlantInfo } from './PlantInfo.jsx';
 
 export function App() {
-  const [page, setPage] = useState(0);
-  const perPage = 10;
-
-  const [itemsShown, setItemsShown] = useState(5);
-  const ref = useRef(null);
-  useEffect(() => {
-    const width = ref.current ? ref.current.offsetWidth : window.innerWidth;
-    setItemsShown(Math.floor(width / 48) - 1);
-  }, [ref.current]);
-
-  const [data, setData] = useState(null);
-  useEffect(() => {
-    fetch(import.meta.env.BASE_URL + 'plants.json')
-      .then(res => res.json())
-      .then(json => setData(json));
-  }, []);
-
+  const query = useSignal('');
+  const base = import.meta.env.BASE_URL;
   return (
     <>
-      <Header />
+      <Header query={query} />
       <Content>
-        {data ? <SearchResults data={data} /> : <Loading active={true} />}
+        <Router>
+          <Home path={`${base}/`} />
+          <PlantSearch path={`${base}/search`} query={query} />
+          <PlantInfo path={`${base}/plant/:plantId`} />
+        </Router>
       </Content>
     </>
   );
-
-  /*return (
-    <Router>
-      <Home path="/" />
-      <Search path="/search/:query" />
-      <Plant path="/plant/:plant" />
-    </Router>
-  );*/
 }
