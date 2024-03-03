@@ -15,7 +15,7 @@ export function App() {
       <Content>
         <Router>
           <Home path={`${base}/`} />
-          <PlantSearch path={`${base}/search`} query={query} />
+          <PlantSearch path={`${base}/search/:urlQuery?`} query={query} />
           <PlantInfo path={`${base}/plant/:plantId`} />
         </Router>
       </Content>

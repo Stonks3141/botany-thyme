@@ -1,47 +1,54 @@
-import { useMemo } from 'preact/hooks';
 import { FileUploader, Button } from '@carbon/react';
 import { container, spacer, uploadButton } from './Home.module.css';
 
 const Spacer = () => <div className={spacer}></div>
 
+async function identifyImage(image) {
+  let mimeType = image.type || {
+    'avif': 'image/avif',
+    'bmp': 'image/bmp',
+    'gif': 'image/gif',
+    'jpeg': 'image/jpeg',
+    'jpg': 'image/jpeg',
+    'png': 'image/png',
+    'tif': 'image/tiff',
+    'tiff': 'image/tiff',
+    'webp': 'image/webp',
+  }[image.name.split('.').at(-1).toLowerCase()];
+  console.log(mimeType);
+
+  if (!mimeType) {
+    alert('Unrecognized file type!');
+    return;
+  }
+
+  const dataUrl = await new Promise((resolve, _) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.readAsDataURL(image);
+  });
+  const base64 = dataUrl.slice('data:*/*;base64,'.length);
+  console.log('b64:', base64.length);
+
+  try {
+  const res = await fetch('https://www.plant.id/api_frontend/identify_sample', {
+    method: 'POST',
+    body: `{"images":["data:${mimeType};base64,${base64}"]}`,
+  });
+  console.log(res);
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+}
 
 export function Home() {
-  const aborter = useMemo(() => new AbortController());
-
-  async function identifyImage(event) {
-    const image = event.target.files[0];
-
-    let mimeType = image.type || {
-      'avif': 'image/avif',
-      'bmp': 'image/bmp',
-      'gif': 'image/gif',
-      'jpeg': 'image/jpeg',
-      'jpg': 'image/jpeg',
-      'png': 'image/png',
-      'tif': 'image/tiff',
-      'tiff': 'image/tiff',
-      'webp': 'image/webp',
-    }[image.name.split('.').at(-1).toLowerCase()];
-
-    if (!mimeType) {
-      alert('Unrecognized file type!');
-      return;
+  async function onUpload(event) {
+    try {
+      await identifyImage(event.target.files[0]);
+    } catch (e) {
+      if (e.name !== 'AbortError') throw e;
     }
-
-    aborter.abort();
-
-    const dataUrl = await new Promise((resolve, _) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result);
-      reader.readAsDataURL(image);
-    });
-    const base64 = dataUrl.slice('data:*/*;base64,'.length);
-
-    await fetch('https://www.plant.id/api_frontend/identify_sample', {
-      method: 'POST',
-      body: `{"images":["data:${mimeType};base64,${base64}"]}`,
-      signal: aborter.signal,
-    });
   }
 
   return (
@@ -58,9 +65,10 @@ export function Home() {
           labelTitle="Upload image"
           labelDescription="Upload an image of a plant to identify it."
           buttonLabel="Add image"
+          filenameStatus="edit"
           multiple={false}
           accept={['.avif','.bmp','.gif','.jpeg','.jpg','.png','.tif','.tiff','.webp']}
-          onChange={identifyImage}
+          onChange={onUpload}
         />
       </div>
       <h2>About</h2>

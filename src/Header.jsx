@@ -1,4 +1,5 @@
 import { useSignal } from '@preact/signals';
+import { route } from 'preact-router';
 import {
   Header as BaseHeader, Content, HeaderName, HeaderGlobalBar, HeaderGlobalAction,
   ExpandableSearch,
@@ -9,9 +10,29 @@ import { hideSmall, offsetButton } from './Header.module.css';
 export function Header({ query }) {
   const expanded = useSignal(false);
 
+  if (query.value) {
+    expanded.value = true;
+  }
+
   function onSearchClose() {
-    expanded.value = false;
     query.value = '';
+    expanded.value = false;
+  }
+
+  function onKeyDown(event) {
+    switch (event.key) {
+      case 'Enter':
+        event.preventDefault();
+        route(import.meta.env.BASE_URL + '/search/' + query.value);
+        break;
+      case 'Escape':
+        if (!query.value) {
+          event.preventDefault();
+          query.value = '';
+          expanded.value = false;
+        }
+        break;
+    }
   }
 
   return (
@@ -25,6 +46,7 @@ export function Header({ query }) {
           onExpand={() => expanded.value = !expanded.value}
           value={query.value}
           onChange={e => query.value = e.target.value}
+          onKeyDown={onKeyDown}
           size="lg"
           labelText="Search for plants"
           placeholder="Search for plants"

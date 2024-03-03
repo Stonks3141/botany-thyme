@@ -1,13 +1,18 @@
-import { useComputed } from '@preact/signals';
+import { useEffect } from 'preact/hooks';
 import { Loading } from '@carbon/react';
 import { SearchResults } from './SearchResults.jsx';
 import { data } from './data.js';
 
-export function PlantSearch({ query }) {
+export function PlantSearch({ urlQuery, query }) {
+  useEffect(() => {
+    if (urlQuery) {
+      query.value = urlQuery;
+    }
+  }, [urlQuery]);
+
   if (!data.value) {
     return <Loading active={true} />;
   }
-  //const results = useComputed(() => data.value.filter(plant => !query.value || plant.commonName.toLowerCase().includes(query.value.toLowerCase())));
 
   let results = data.value;
   if (query.value) {
