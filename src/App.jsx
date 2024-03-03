@@ -1,5 +1,5 @@
 import { useState, useEffect, useLayoutEffect, useRef } from 'preact/hooks';
-import { Header, HeaderName, HeaderGlobalBar, HeaderGlobalAction, ExpandableSearch, PaginationNav, Loading, IconButton, Grid, Column } from '@carbon/react';
+import { Header, Content, HeaderName, HeaderGlobalBar, HeaderGlobalAction, ExpandableSearch, PaginationNav, Loading, Grid, Column } from '@carbon/react';
 import PlantCard from './PlantCard.jsx';
 
 export function App() {
@@ -33,24 +33,24 @@ export function App() {
           </HeaderGlobalAction>
         </HeaderGlobalBar>
       </Header>
-      {data === null
-        ? <Loading active={true} />
-        : <>
-            <Grid as="main">
+      <Content>
+        {data === null
+          ? <Loading active={true} />
+          : <Grid as="main">
               {data.slice(page * perPage, (page + 1) * perPage).map(plant =>
                 <Column sm={4} md={4} lg={4}><PlantCard data={plant} /></Column>
               )}
             </Grid>
-            <footer ref={ref} className="cds--footer" style="overflow-x: hidden">
-              <PaginationNav
-                page={page}
-                onChange={n => setPage(n)}
-                itemsShown={itemsShown}
-                totalItems={Math.ceil(data.length / perPage)}
-              />
-            </footer>
-          </>
-      }
+        }
+      </Content>
+      <footer ref={ref} className="cds--footer" style="overflow-x: hidden">
+        <PaginationNav
+          page={page}
+          onChange={n => setPage(n)}
+          itemsShown={itemsShown}
+          totalItems={data ? Math.ceil(data.length / perPage) : 0}
+        />
+      </footer>
     </>
   );
 }
