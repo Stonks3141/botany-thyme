@@ -36,9 +36,9 @@ export function Header({ query }) {
   }
 
   return (
-    <BaseHeader aria-label="Botany Thyme">
+    <BaseHeader aria-label="Botanical Thyme">
       <div class={expanded.value ? hideSmall : ''}>
-        <HeaderName href={import.meta.env.BASE_URL} prefix="">Botany Thyme</HeaderName>
+        <HeaderName href={import.meta.env.BASE_URL} prefix="">Botanical Thyme</HeaderName>
       </div>
       <HeaderGlobalBar>
         <ExpandableSearch
