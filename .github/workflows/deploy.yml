@@ -26,8 +26,12 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
       - name: Install dependencies
+        env:
+          IBM_TELEMETRY_DISABLED: 'true'
         run: npm install
       - name: Build bundle
+        env:
+          IBM_TELEMETRY_DISABLED: 'true'
         run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v4

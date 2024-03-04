@@ -1,5 +1,6 @@
 import { Tag, Loading } from '@carbon/react';
 import { data } from './data.js';
+import { container } from './PlantInfo.module.css';
 
 export function PlantInfo({ plantId }) {
   if (!data.value) {
@@ -7,7 +8,7 @@ export function PlantInfo({ plantId }) {
   }
   const plant = data.value.find(p => p.symbol === plantId);
   return (
-    <>
+    <div className={container}>
       <h1 style="text-transform: capitalize">{plant.commonName}</h1>
       <p><em>{plant.scientificName}</em></p>
       <p style="text-transform: lowercase">
@@ -19,6 +20,6 @@ export function PlantInfo({ plantId }) {
         src={'https://plants.sc.egov.usda.gov/ImageLibrary/standard/' + plant.imageFile}
         style="max-width: 100%; max-height: 100%;"
       />
-    </>
+    </div>
   );
 }
