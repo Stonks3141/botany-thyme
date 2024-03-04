@@ -33,6 +33,8 @@ jobs:
         env:
           IBM_TELEMETRY_DISABLED: 'true'
         run: npm run build
+      - name: Redirect everything to index.html
+        run: ln -s index.html dist/404.html
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
