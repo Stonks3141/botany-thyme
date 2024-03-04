@@ -1,3 +1,4 @@
+import { route } from 'preact-router';
 import { FileUploader, Button } from '@carbon/react';
 import { container, spacer, uploadButton } from './Home.module.css';
 
@@ -15,7 +16,6 @@ async function identifyImage(image) {
     'tiff': 'image/tiff',
     'webp': 'image/webp',
   }[image.name.split('.').at(-1).toLowerCase()];
-  console.log(mimeType);
 
   if (!mimeType) {
     alert('Unrecognized file type!');
@@ -28,18 +28,12 @@ async function identifyImage(image) {
     reader.readAsDataURL(image);
   });
   const base64 = dataUrl.slice('data:*/*;base64,'.length);
-  console.log('b64:', base64.length);
 
-  try {
   const res = await fetch('https://www.plant.id/api_frontend/identify_sample', {
     method: 'POST',
     body: `{"images":["data:${mimeType};base64,${base64}"]}`,
   });
-  console.log(res);
-  } catch (e) {
-    console.log(e);
-    throw e;
-  }
+  route(import.meta.env.BASE_URL + '/search/' + image.name.split('.')[0]);
 }
 
 export function Home() {
